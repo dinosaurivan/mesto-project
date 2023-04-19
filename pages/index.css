@@ -94,11 +94,6 @@
 
 /* 4. block elements modifiers */
 @import url(../blocks/gallery/__card/_empty/gallery__card_empty.css);
-@import url(../blocks/gallery/__image/_olkhon/gallery__image_olkhon.css);
-@import url(../blocks/gallery/__image/_karach/gallery__image_karach.css);
-@import url(../blocks/gallery/__image/_elbrus/gallery__image_elbrus.css);
-@import url(../blocks/gallery/__image/_dombay/gallery__image_dombay.css);
-@import url(../blocks/gallery/__image/_tundra/gallery__image_tundra.css);
 @import url(../blocks/gallery/__like/_active/gallery__like_active.css);
 
 
