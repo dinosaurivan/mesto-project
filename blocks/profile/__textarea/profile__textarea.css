@@ -1,0 +1,30 @@
+.profile__textarea {
+  margin: 0;
+  padding: 0;
+
+  display: -ms-grid;
+
+  display: grid;
+  -ms-grid-columns: auto 18px auto;
+  grid-template-columns: repeat(2, auto);
+  -ms-grid-rows: auto 16px auto;
+  grid-template-rows: repeat(2, auto);
+      grid-template-areas: 
+    "name edit"
+    "bio bio";
+
+  -webkit-box-align: baseline;
+
+      -ms-flex-align: baseline;
+
+          align-items: baseline;
+  gap: 16px 18px;
+}
+@media screen and (max-width: 600px) {
+    .profile__textarea {
+            grid-template-areas: 
+        "name edit"
+        "bio empty";    
+        gap: 14px 10px;
+      }
+}

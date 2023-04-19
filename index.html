@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Учебный проект по статической вёрстке">
+    <meta name="keywords" content="HTML5, CSS, BEM, media queries">
+    <meta name="author" content="Ваня Шанин">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesto</title>
+    <link rel="icon" href="images/pin_icon.png">
+    <link rel="stylesheet" href="pages/index.css">    
+    <!-- <link rel="stylesheet" href="vendor/normalize.css"> -->
+    <!-- <link rel="stylesheet" href="vendor/fonts.css"> -->
+    <!-- <link rel="stylesheet" href="styles/styles.css"> -->
+    <!-- <link rel="stylesheet" href="styles/styles_autoprefixed.css"> -->
+  </head>
+  
+  <body class="page">
+  
+    <section class="popup">
+      <div class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form">
+          <input class="popup__input" type="text" name="profile__name" value="Кайл Брофловски" required>
+          <input class="popup__input" type="text" name="profile__bio" value="Четвероклассник из Саус Парка" required>
+          <button type="submit" class="popup__save button tint-on-hover">Сохранить</button>
+        </form>
+        <button class="popup__close button tint-on-hover"></button>
+      </div>
+    </section>
+
+    <header class="header">
+      <div class="header__border">
+        <img class="header__logo" src="images/logo_white.svg" alt="">
+      </div>
+    </header>
+
+    <main class="content">
+
+      <section class="profile">
+        <figure class="profile__info">
+          <img class="profile__avatar" src="images/avatar.png" alt="">
+          <figcaption class="profile__textarea">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <p class="profile__bio">Исследователь океана</p>
+            <button class="profile__edit button tint-on-hover">
+              <img class="profile__edit-icon" src="images/edit.svg" alt="">
+            </button>
+          </figcaption>
+        </figure>
+        <button class="profile__add button tint-on-hover">
+          <img class="profile__add-icon" src="images/add.svg" alt="">
+        </button>
+      </section>
+
+      <section class="gallery">
+        <ul class="gallery__items">
+
+          <li class="gallery__card">
+            <div class="gallery__image gallery__image_olkhon"></div>
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Остров Ольхон</h2>
+              <button class="gallery__like button tint-on-hover"></button>
+            </div>
+          </li>                 
+          <li class="gallery__card">
+            <div class="gallery__image gallery__image_karach"></div>
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Карачаевск</h2>
+              <button class="gallery__like button tint-on-hover"></button>
+            </div>
+          </li>            
+          <li class="gallery__card">
+            <div class="gallery__image gallery__image_elbrus"></div>
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Гора Эльбрус</h2>
+              <button class="gallery__like button tint-on-hover"></button>
+            </div>
+          </li>            
+          <li class="gallery__card">
+            <div class="gallery__image gallery__image_dombay"></div>
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Домбай</h2>
+              <button class="gallery__like button tint-on-hover"></button>
+            </div>
+          </li>                 
+          <li class="gallery__card">
+            <div class="gallery__image gallery__image_tundra"></div>
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Тундра</h2>
+              <button class="gallery__like button tint-on-hover"></button>
+            </div>
+          </li>            
+          <li class="gallery__card gallery__card_empty">
+            <p class="gallery__message">
+              Тут пока ничего нет!
+            </p>
+            <p class="gallery__message">              
+              Добавить карточку можно, 
+              нажав на кнопку вверху
+            </p>
+          </li>               
+
+        </ul>
+      </section>        
+
+    </main>
+
+    <footer class="footer">
+      <p class="footer__author">
+        &copy; 2023
+        <a class="footer__link anchor" href="https://t.me/justicewisdom/" target="_blank">
+          Ваня Шанин
+        </a>
+      </p>
+    </footer>
+
+    <script src="scripts/script.js"></script>
+
+  </body>
+
+</html>

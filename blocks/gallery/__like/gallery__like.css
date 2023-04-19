@@ -1,0 +1,16 @@
+.gallery__like {
+  margin: 0;
+  padding: 0 21px 0 0;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  width: 22px;
+  height: 19px;
+
+  background-image: url(../../../images/like.svg);
+  background-size: contain;
+  background-position: left;
+  background-repeat: no-repeat;
+}
+.gallery__like:active {
+  background-image: url(../../../images/like_active.svg);
+}

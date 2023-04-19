@@ -1,0 +1,12 @@
+.DS_Store
+
+tryouts/
+
+styles/
+
+node_modules/
+
+package.json
+
+package-lock.json
+

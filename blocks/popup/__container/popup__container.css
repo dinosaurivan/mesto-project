@@ -1,0 +1,32 @@
+.popup__container {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  max-width: 430px;
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+  padding: 36px;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  row-gap: 54px;
+
+  position: relative;
+}
+@media screen and (max-width: 450px) {
+    .popup__container {
+        padding: 25px 22px 25px 22px;
+        row-gap: 75px;
+      }
+}
