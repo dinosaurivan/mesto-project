@@ -1,5 +1,5 @@
 .gallery__image {
   height: calc(100% - 80px);
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
+  object-position: center;
 }
