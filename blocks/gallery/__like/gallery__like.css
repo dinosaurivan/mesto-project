@@ -11,6 +11,9 @@
   background-position: left;
   background-repeat: no-repeat;
 }
+.gallery__like:hover {
+  opacity: 0.5;
+}
 .gallery__like:active {
   background-image: url(../../../images/like_active.svg);
 }

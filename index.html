@@ -18,41 +18,25 @@
   </head>
   
   <body class="page">
-  
-    <section class="popup">
-      <div class="popup__container">
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
-          <input class="popup__input" type="text" name="profile__name" value="Кайл Брофловски" required>
-          <input class="popup__input" type="text" name="profile__bio" value="Четвероклассник из Саус Парка" required>
-          <button type="submit" class="popup__save button tint-on-hover">Сохранить</button>
-        </form>
-        <button class="popup__close button tint-on-hover"></button>
-      </div>
-    </section>
 
     <header class="header">
-      <div class="header__border">
-        <img class="header__logo" src="images/logo_white.svg" alt="логотип проекта">
-      </div>
+      <img class="header__logo" src="images/logo_white.svg" alt="логотип проекта">
     </header>
 
     <main class="content">
 
+      <hr class="content__hline">
+
       <section class="profile">
-        <figure class="profile__info">
+        <div class="profile__info">
           <img class="profile__avatar" src="images/avatar.png" alt="аватар пользователя">
-          <figcaption class="profile__textarea">
+          <div class="profile__textarea">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <p class="profile__bio">Исследователь океана</p>
-            <button class="profile__edit button tint-on-hover">
-              <img class="profile__edit-icon" src="images/edit.svg" alt="редактировать профиль">
-            </button>
-          </figcaption>
-        </figure>
-        <button class="profile__add button tint-on-hover">
-          <img class="profile__add-icon" src="images/add.svg" alt="добавить карточку">
-        </button>
+            <button class="profile__edit button tint-on-hover" type="button"></button>
+          </div>
+        </div>
+        <button class="profile__add button tint-on-hover" type="button"></button>
       </section>
 
       <section class="gallery">
@@ -66,7 +50,7 @@
             >
             <div class="gallery__cover">
               <h2 class="gallery__title">Остров Ольхон</h2>
-              <button class="gallery__like button tint-on-hover"></button>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
             </div>
           </li>                 
           <li class="gallery__card">
@@ -77,7 +61,7 @@
             >
             <div class="gallery__cover">
               <h2 class="gallery__title">Карачаевск</h2>
-              <button class="gallery__like button tint-on-hover"></button>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
             </div>
           </li>            
           <li class="gallery__card">
@@ -88,7 +72,7 @@
             >
             <div class="gallery__cover">
               <h2 class="gallery__title">Гора Эльбрус</h2>
-              <button class="gallery__like button tint-on-hover"></button>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
             </div>
           </li>            
           <li class="gallery__card">
@@ -99,7 +83,7 @@
             >
             <div class="gallery__cover">
               <h2 class="gallery__title">Домбай</h2>
-              <button class="gallery__like button tint-on-hover"></button>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
             </div>
           </li>                 
           <li class="gallery__card">
@@ -110,17 +94,19 @@
             >
             <div class="gallery__cover">
               <h2 class="gallery__title">Тундра</h2>
-              <button class="gallery__like button tint-on-hover"></button>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
             </div>
           </li>            
-          <li class="gallery__card gallery__card_empty">
-            <p class="gallery__message">
-              Тут пока ничего нет!
-            </p>
-            <p class="gallery__message">              
-              Добавить карточку можно, 
-              нажав на кнопку вверху
-            </p>
+          <li class="gallery__card">
+            <img 
+              class="gallery__image" 
+              src="images/post_kizhi.jpeg" 
+              alt="главная церковь с многочисленными куполами, выполненная из чистого дерева"
+            >
+            <div class="gallery__cover">
+              <h2 class="gallery__title">Остров Кижи</h2>
+              <button class="gallery__like button tint-on-hover" type="button"></button>
+            </div>
           </li>               
 
         </ul>
@@ -137,7 +123,17 @@
       </p>
     </footer>
 
-    <script src="scripts/script.js"></script>
+    <div class="popup">
+      <div class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form" name="profile__edit">
+          <input class="popup__input" type="text" name="profile__name" placeholder="Кайл Брофловски" value="Жак-Ив Кусто" required>
+          <input class="popup__input" type="text" name="profile__bio" placeholder="Четвероклассник из Саус Парка" value="Исследователь океана" required>
+          <button type="submit" class="popup__save button tint-on-hover">Сохранить</button>
+        </form>
+        <button class="popup__close button tint-on-hover" type="button"></button>
+      </div>
+    </div>    
 
   </body>
 

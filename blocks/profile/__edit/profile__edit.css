@@ -19,4 +19,12 @@
           justify-content: center;
 
   border: 1px solid white;  
+
+  background-image: url(../../../images/edit.svg);
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.profile__edit:hover {
+  opacity: 0.6;
 }

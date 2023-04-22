@@ -1,6 +1,6 @@
 .profile {
   margin: 0;
-  padding: 0 0 50px 0;
+  padding: 40px 0 50px 0;
 
   -webkit-box-sizing: border-box;
 
@@ -30,6 +30,7 @@
 }
 @media screen and (max-width: 400px) {
     .profile {
+        padding-top: 42px;
         padding-bottom: 36px;
         row-gap: 36px;
       }

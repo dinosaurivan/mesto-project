@@ -1,5 +1,7 @@
 .gallery__image {
   height: calc(100% - 80px);
-  object-fit: cover;
-  object-position: center;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
