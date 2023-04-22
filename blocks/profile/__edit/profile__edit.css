@@ -5,10 +5,11 @@
 
   width: 24px;
   height: 24px;
+  border: 1px solid white;  
 
-  display: -webkit-box;
+  display: -webkit-box;  
 
-  display: -ms-flexbox;
+  display: -ms-flexbox;  
 
   display: flex;
   -webkit-box-align: center;
@@ -18,19 +19,30 @@
       -ms-flex-pack: center;
           justify-content: center;
 
-  border: 1px solid white;  
-
   background-image: url(../../../images/edit.svg);
   background-size: 10px 10px;
   background-position: center;
   background-repeat: no-repeat;
+
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.2s;
+       -o-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+       -o-transition-timing-function: linear;
+          transition-timing-function: linear;
+  -webkit-transition-delay: 0s;
+       -o-transition-delay: 0s;
+          transition-delay: 0s;  
 }
 .profile__edit:hover {
   opacity: 0.6;
 }
-
 @media screen and (max-width: 400px) {
-  .profile__edit {
-    background-size: 7.5px 7.5px;
-  }
+    .profile__edit {
+        background-size: 7.5px 7.5px;
+      }
 }

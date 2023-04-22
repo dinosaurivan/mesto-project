@@ -20,7 +20,7 @@
           align-items: baseline;
   gap: 16px 18px;
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
     .profile__textarea {
             grid-template-areas: 
         "name edit"

@@ -7,6 +7,20 @@
   background-color: transparent;
   background-image: url(../../../images/close.svg);
   background-size: contain;
+
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.2s;
+       -o-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+  -webkit-transition-timing-function: linear;
+       -o-transition-timing-function: linear;
+          transition-timing-function: linear;
+  -webkit-transition-delay: 0s;
+       -o-transition-delay: 0s;
+          transition-delay: 0s; 
 }
 .popup__close:hover {
   opacity: 0.6;
