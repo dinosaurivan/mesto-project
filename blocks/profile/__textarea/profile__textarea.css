@@ -1,6 +1,7 @@
 .profile__textarea {
   margin: 0;
   padding: 0;
+  position: relative;
 
   display: -ms-grid;
 
@@ -20,11 +21,17 @@
           align-items: baseline;
   gap: 16px 18px;
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
     .profile__textarea {
             grid-template-areas: 
         "name edit"
-        "bio empty";    
-        gap: 14px 10px;
+        "bio empty";        
+        left: 21px;
+      }
+}
+@media screen and (max-width: 450px) {
+    .profile__textarea {
+        gap: 8px 10px;
+        left: 14px;
       }
 }

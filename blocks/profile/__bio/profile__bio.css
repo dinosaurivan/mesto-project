@@ -1,4 +1,6 @@
 .profile__bio {
+  grid-row: 3;
+  grid-column: 1;  
   -ms-grid-row: 3;
   -ms-grid-column: 1;
   -ms-grid-column-span: 3;
@@ -11,15 +13,21 @@
   font-size: 18px;
   line-height: 22px;  
 }
+@media screen and (max-width: 600px) {
+    .profile__bio {
+        text-align: center;
+      }
+}
+@media screen and (max-width: 600px) {
+    .profile__bio {
+        grid-row: 2;    
+        -ms-grid-row: 2;
+        -ms-grid-column-span: 1;
+      }
+}
 @media screen and (max-width: 450px) {
     .profile__bio {
         font-size: 14px;
         line-height: 17px;    
-      }
-}
-@media screen and (max-width: 400px) {
-    .profile__bio {
-        text-align: center;
-        -ms-grid-column-span: 1;
       }
 }

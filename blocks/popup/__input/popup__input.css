@@ -12,7 +12,3 @@
   font-size: 14px;
   line-height: 17px;  
 }
-.popup__input:focus {
-  -webkit-box-shadow: red 0px 0px 10px 2px;
-          box-shadow: red 0px 0px 10px 2px;
- }

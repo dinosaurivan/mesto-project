@@ -6,7 +6,7 @@
   height: -webkit-min-content;
   height: -moz-min-content;
   height: min-content;
-  padding: 36px;
+  padding: 34px 36px 37px 36px;
   color: black;
   background-color: white;
   border-radius: 10px;
@@ -22,7 +22,7 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
-  row-gap: 54px;
+  row-gap: 40px;
 
   position: relative;
 }
