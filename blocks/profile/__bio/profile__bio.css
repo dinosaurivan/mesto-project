@@ -3,7 +3,6 @@
   grid-column: 1;  
   -ms-grid-row: 3;
   -ms-grid-column: 1;
-  -ms-grid-column-span: 3;
   grid-area: bio;
 
   margin: 0;
@@ -12,17 +11,16 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;  
+
+  -o-text-overflow: ellipsis;  
+
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;  
 }
 @media screen and (max-width: 600px) {
     .profile__bio {
         text-align: center;
-      }
-}
-@media screen and (max-width: 600px) {
-    .profile__bio {
-        grid-row: 2;    
-        -ms-grid-row: 2;
-        -ms-grid-column-span: 1;
       }
 }
 @media screen and (max-width: 450px) {

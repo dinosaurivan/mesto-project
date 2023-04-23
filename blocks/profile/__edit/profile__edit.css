@@ -43,12 +43,6 @@
 .profile__edit:hover {
   opacity: 0.6;
 }
-@media screen and (max-width: 600px) {
-    .profile__edit {
-        grid-column: 2;    
-        -ms-grid-column: 2;
-      }
-}
 @media screen and (max-width: 450px) {
     .profile__edit {
         width: 18px;
