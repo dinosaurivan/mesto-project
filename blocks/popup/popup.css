@@ -1,3 +1,14 @@
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .popup {
   position: fixed;
   z-index: 1;
@@ -24,12 +35,23 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  
-  visibility: hidden;
+
   opacity: 0;
-  -webkit-transition: visibility 0s, opacity 0.2s linear;
-  -o-transition: visibility 0s, opacity 0.2s linear;
-  transition: visibility 0s, opacity 0.2s linear;  
+  visibility: hidden;  
+
+  -webkit-animation-name: fadeOut;  
+
+          animation-name: fadeOut;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+          animation-duration: 0.3s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;  
+  -webkit-animation-timing-function: linear;  
+          animation-timing-function: linear;  
 }
 @media screen and (max-width: 450px) {
     .popup {
