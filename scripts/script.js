@@ -1,51 +1,56 @@
-const popupDetail = document.querySelector("#popup_type_detail");
-const closePopupDetailButton = popupDetail.querySelector(".popup__close");
+const openPopup = (popup) => popup.classList.add("popup_opened");
+const closePopup = (popup) => popup.classList.remove("popup_opened");
 
-closePopupDetailButton.addEventListener(
-    "click", function () {
-        popupDetail.classList.remove("popup_opened");
+const closeButtons = document.querySelectorAll(".popup__close");
+closeButtons.forEach(
+    (button) => {
+        const popup = button.closest(".popup");
+        button.addEventListener(
+            "click", () => closePopup(popup)
+        );
     }
 );
 
 
 
+const popupDetail = document.querySelector("#popup_type_detail");
+const popupDetailCaption = popupDetail.querySelector(".popup__caption");
+const popupDetailImage = popupDetail.querySelector(".popup__image");
+
 const galleryCards = document.querySelector(".gallery__cards");
 const galleryCardTemplate = galleryCards.querySelector("#gallery__card").content;
 
-const renderGalleryCard = function (image) {
+const createGalleryCard = (image) => {
     const galleryCard = galleryCardTemplate.querySelector(".gallery__card").cloneNode(true);
-    galleryCard.querySelector(".gallery__title").textContent = image.name;
+    
+    const galleryTitle = galleryCard.querySelector(".gallery__title");
+    galleryTitle.textContent = image.name;
 
-    const galleryImage = galleryCard.querySelector(".gallery__image")
+    const galleryImage = galleryCard.querySelector(".gallery__image");
     galleryImage.alt = image.name;
     galleryImage.src = image.link;
 
     galleryImage.addEventListener(
-        "click", function() {
-            popupDetail.querySelector(".popup__caption").textContent = image.name;
-            popupDetail.querySelector(".popup__image").alt = image.name;
-            popupDetail.querySelector(".popup__image").src = image.link;
-            popupDetail.classList.add("popup_opened");
+        "click", () => {
+            popupDetailCaption.textContent = image.name;
+            popupDetailImage.alt = image.name;
+            popupDetailImage.src = image.link;
+            openPopup(popupDetail);
         }
     );
     
     const likeButton = galleryCard.querySelector(".gallery__like");
     likeButton.addEventListener(
-        "click", function() {
-            likeButton.classList.toggle("gallery__like_active");
-        }
+        "click", () => likeButton.classList.toggle("gallery__like_active")
     );
 
     const trashButton = galleryCard.querySelector(".gallery__remove");
     trashButton.addEventListener(
-        "click", function() {
-            const galleryCard = trashButton.closest('.gallery__card');
-            galleryCard.remove();
-        }
+        "click", () => trashButton.closest(".gallery__card").remove()
     );    
-    
-    galleryCards.prepend(galleryCard);
-}
+
+    return galleryCard;
+};
 
 
 
@@ -76,17 +81,22 @@ const initialImages = [
     },         
 ];
 
-initialImages.forEach(renderGalleryCard);
+initialImages.forEach(
+    (image) => galleryCards.append(
+        createGalleryCard(image)
+    )
+);
 
 
 
 const popupEdit = document.querySelector("#popup_type_edit");
+const formEditElement = popupEdit.querySelector(".popup__form[name='profile__edit']");
 
 const openPopupEditButton = document.querySelector(".profile__edit");
 const closePopupEditButton = popupEdit.querySelector(".popup__close");
 
-const profileNameInput = popupEdit.querySelector(`.popup__input[name='profile__name']`);
-const profileBioInput = popupEdit.querySelector(`.popup__input[name='profile__bio']`);
+const profileNameInput = popupEdit.querySelector(".popup__input[name='profile__name']");
+const profileBioInput = popupEdit.querySelector(".popup__input[name='profile__bio']");
 
 const currentProfileName = document.querySelector(".profile__name");
 const currentProfileBio = document.querySelector(".profile__bio");
@@ -95,30 +105,21 @@ profileNameInput.value = currentProfileName.textContent;
 profileBioInput.value = currentProfileBio.textContent;
 
 openPopupEditButton.addEventListener(
-    "click", function () {
-        popupEdit.classList.add("popup_opened");
-    }
+    "click", () => openPopup(popupEdit)
 );
 closePopupEditButton.addEventListener(
-    "click", function () {
-        popupEdit.classList.remove("popup_opened");
+    "click", () => {
         profileNameInput.value = currentProfileName.textContent;
         profileBioInput.value = currentProfileBio.textContent;
     }
 );
 
-
-
-const formEditElement = popupEdit.querySelector(".popup__form[name='profile__edit']");
-
-const handleFormEditSubmit = function (event) {
-    event.preventDefault(); 
-    
+const handleFormEditSubmit = (event) => {
+    event.preventDefault();
     currentProfileName.textContent = profileNameInput.value;
     currentProfileBio.textContent = profileBioInput.value;
-
-    closePopupEditButton.click();
-}
+    closePopup(popupEdit);
+};
 
 formEditElement.addEventListener(
     "submit", handleFormEditSubmit
@@ -127,38 +128,32 @@ formEditElement.addEventListener(
 
 
 const popupAdd = document.querySelector("#popup_type_add");
+const formAddElement = popupAdd.querySelector(".popup__form[name='profile__add']");
 
 const openPopupAddButton = document.querySelector(".profile__add");
 const closePopupAddButton = popupAdd.querySelector(".popup__close");
 
-const galleryTitleInput = popupAdd.querySelector(`.popup__input[name='gallery__title']`);
-const galleryImageInput = popupAdd.querySelector(`.popup__input[name='gallery__image']`);
+const galleryTitleInput = popupAdd.querySelector(".popup__input[name='gallery__title']");
+const galleryImageInput = popupAdd.querySelector(".popup__input[name='gallery__image']");
 
 openPopupAddButton.addEventListener(
-    "click", function () {
-        popupAdd.classList.add("popup_opened");
-    }
+    "click", () => openPopup(popupAdd)
 );
 closePopupAddButton.addEventListener(
-    "click", function () {
-        popupAdd.classList.remove("popup_opened");
-        galleryTitleInput.value = "";
-        galleryImageInput.value = "";
-    }
+    "click", () => formAddElement.reset()
 );
 
-
-
-const formAddElement = popupAdd.querySelector(".popup__form[name='profile__add']");
-
-const handleFormAddSubmit = function (event) {
+const handleFormAddSubmit = (event) => {
     event.preventDefault(); 
-    const newImage = {
-        name: galleryTitleInput.value,
-        link: galleryImageInput.value,
-    }
-    renderGalleryCard(newImage);
-    closePopupAddButton.click();
+    galleryCards.prepend(
+        createGalleryCard(
+            {
+                name: galleryTitleInput.value,
+                link: galleryImageInput.value,
+            }
+        )
+    );
+    closePopup(popupAdd);
 }
 
 formAddElement.addEventListener(
