@@ -10,7 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
     <link rel="icon" href="images/pin_icon.png">
-    <link rel="stylesheet" href="pages/index.css">    
+    <!-- <link rel="stylesheet" href="pages/index.css">     -->
+    <link rel="stylesheet" href="vendor/normalize.css">    
+    <link rel="stylesheet" href="vendor/fonts.css">    
+    <link rel="stylesheet" href="styles/styles.css">    
   </head>
   
   <body class="page">
@@ -34,74 +37,22 @@
       </section>
 
       <section class="gallery">
-        <ul class="gallery__items">
+        <ul class="gallery__cards">
 
-          <li class="gallery__card">
-            <img 
-              class="gallery__image" 
-              src="images/post_olkhon.jpeg" 
-              alt="скалистый берег острова Ольхон"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Остров Ольхон</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>                 
-          <li class="gallery__card">
-            <img 
-              class="gallery__image"
-              src="images/post_karach.jpg" 
-              alt="старинная церковь в Карачаевске"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Карачаевск</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>            
-          <li class="gallery__card">
-            <img 
-              class="gallery__image" 
-              src="images/post_elbrus.png" 
-              alt="двуглавая вершина горы Эльбрус на рассвете"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Гора Эльбрус</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>            
-          <li class="gallery__card">
-            <img 
-              class="gallery__image" 
-              src="images/post_dombay.png" 
-              alt="хвойный лес на фоне пиков и ледников Домбая"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Домбай</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>                 
-          <li class="gallery__card">
-            <img 
-              class="gallery__image" 
-              src="images/post_tundra.jpeg" 
-              alt="многооразие цветов низкорослая растительность российской тундры"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Тундра</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>            
-          <li class="gallery__card">
-            <img 
-              class="gallery__image" 
-              src="images/post_kizhi.jpeg" 
-              alt="главная церковь с многочисленными куполами, выполненная из чистого дерева"
-            >
-            <div class="gallery__cover">
-              <h2 class="gallery__title">Остров Кижи</h2>
-              <button class="gallery__like button" type="button"></button>
-            </div>
-          </li>               
+          <template id="gallery__card">
+            <li class="gallery__card">
+              <img 
+                class="gallery__image" 
+                src=""
+                alt=""
+              >
+              <button class="gallery__remove button" type="button"></button>
+              <div class="gallery__cover">
+                <h2 class="gallery__title"></h2>
+                <button class="gallery__like button" type="button"></button>
+              </div>
+            </li>
+          </template>
 
         </ul>
       </section>        
@@ -117,18 +68,41 @@
       </p>
     </footer>
 
-    <div class="popup">
+    <div class="popup" id="popup_type_edit">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="profile__edit">
-          <input class="popup__input" type="text" name="profile__name" placeholder="Как вас зовут?" value="Жак-Ив Кусто" required>
-          <input class="popup__input" type="text" name="profile__bio" placeholder="Расскажите о себе в двух словах" value="Исследователь океана" required>
+          <input class="popup__input" type="text" name="profile__name" placeholder="Как вас зовут?" required>
+          <input class="popup__input" type="text" name="profile__bio" placeholder="Расскажите о себе в двух словах" required>
           <button type="submit" class="popup__save button">Сохранить</button>
         </form>
         <button class="popup__close button" type="button"></button>
       </div>
     </div>    
 
+    <div class="popup" id="popup_type_add">
+      <div class="popup__container">
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form" name="profile__add">
+          <input class="popup__input" type="text" name="gallery__title" placeholder="Название" required>
+          <input class="popup__input" type="text" name="gallery__image" placeholder="Ссылка на картинку" required>
+          <button type="submit" class="popup__save button">Сохранить</button>
+        </form>
+        <button class="popup__close button" type="button"></button>
+      </div>
+    </div>        
+
+    <div class="popup popup_type_detail" id="popup_type_detail">
+      <div class="popup__fullsize">
+        <figure class="popup__figure">
+          <img class="popup__image" src="" alt="">
+          <figcaption class="popup__caption"></figcaption>
+        </figure>
+        <button class="popup__close button" type="button"></button>
+      </div>
+    </div>            
+
+    <script src="scripts/script.js"></script>
   </body>
 
 </html>

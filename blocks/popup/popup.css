@@ -9,17 +9,27 @@
   height: 100vh;
 
   margin: 0;
-  padding: 0 40px 0 40px;
+  padding: 90px 40px 68px 40px;
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  display: none;
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s, opacity 0.2s linear;
+  -o-transition: visibility 0s, opacity 0.2s linear;
+  transition: visibility 0s, opacity 0.2s linear;  
 }
 @media screen and (max-width: 450px) {
     .popup {
