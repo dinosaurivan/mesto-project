@@ -8,6 +8,8 @@ guides/
 
 node_modules/
 
+dist/
+
 package.json
 
 package-lock.json

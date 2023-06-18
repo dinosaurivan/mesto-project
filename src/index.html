@@ -5,25 +5,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Учебный проект по статической вёрстке">
-    <meta name="keywords" content="HTML5, CSS, BEM, media queries">
+    <meta name="keywords" content="HTML5, CSS, JavaScript, Webpack, Babel, Postcss">
     <meta name="author" content="Ваня Шанин">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="icon" href="images/pin_icon.png">
-    <link rel="stylesheet" href="pages/index.css">    
+    <link rel="icon" href="<%=require('../images/pin_icon.png')%>">
   </head>
   
   <body class="page">
 
     <header class="header">
-      <img class="header__logo" src="images/logo_white.svg" alt="логотип проекта">
+      <img class="header__logo" src="<%=require('../images/logo_white.svg')%>" alt="логотип проекта">
     </header>
 
     <main class="content">
 
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="images/avatar.png" alt="аватар пользователя">
+          <img class="profile__avatar" src="<%=require('../images/avatar.png')%>" alt="аватар пользователя">
           <div class="profile__textarea">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <p class="profile__bio">Исследователь океана</p>
@@ -38,11 +37,7 @@
 
           <template id="gallery__card">
             <li class="gallery__card">
-              <img 
-                class="gallery__image" 
-                src=""
-                alt=""
-              >
+              <img class="gallery__image">
               <button class="gallery__remove button" type="button"></button>
               <div class="gallery__cover">
                 <h2 class="gallery__title"></h2>
@@ -68,22 +63,41 @@
     <div class="popup" id="popup_type_edit">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="profile__edit">
-          <input class="popup__input" type="text" name="profile__name" placeholder="Как вас зовут?" required>
-          <input class="popup__input" type="text" name="profile__bio" placeholder="Расскажите о себе в двух словах" required>
-          <button type="submit" class="popup__save button">Сохранить</button>
+        <form class="popup__form" name="profile__edit" novalidate>
+          <input 
+            class="popup__input" name="profile__name" placeholder="Как вас зовут?"
+            type="text" minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" required
+            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+          >
+          <span class="popup__input-error" id="profile__name-error"></span>
+          <input 
+            class="popup__input"  name="profile__bio" placeholder="Расскажите о себе в двух словах"
+            type="text" minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" required
+            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+          >
+          <span class="popup__input-error" id="profile__bio-error"></span>
+          <button type="submit" class="popup__submit popup__submit_disabled button" disabled>Сохранить</button>
         </form>
         <button class="popup__close button" type="button"></button>
       </div>
-    </div>    
+    </div>
 
     <div class="popup" id="popup_type_add">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="profile__add">
-          <input class="popup__input" type="text" name="gallery__title" placeholder="Название" required>
-          <input class="popup__input" type="text" name="gallery__image" placeholder="Ссылка на картинку" required>
-          <button type="submit" class="popup__save button">Сохранить</button>
+        <form class="popup__form" name="profile__add" novalidate>
+          <input
+            class="popup__input" name="gallery__title" placeholder="Название"
+            type="text" minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" required
+            data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+          >
+          <span class="popup__input-error" id="gallery__title-error"></span>
+          <input
+            class="popup__input" name="gallery__image" placeholder="Ссылка на картинку"
+            type="url" required
+          >
+          <span class="popup__input-error" id="gallery__image-error"></span>
+          <button type="submit" class="popup__submit popup__submit_disabled button" disabled>Создать</button>
         </form>
         <button class="popup__close button" type="button"></button>
       </div>
@@ -92,14 +106,12 @@
     <div class="popup popup_type_detail" id="popup_type_detail">
       <div class="popup__fullsize">
         <figure class="popup__figure">
-          <img class="popup__image" src="" alt="">
+          <img class="popup__image">
           <figcaption class="popup__caption"></figcaption>
         </figure>
         <button class="popup__close button" type="button"></button>
       </div>
     </div>            
-
-    <script src="scripts/script.js"></script>
   </body>
 
 </html>
