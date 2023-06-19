@@ -48,28 +48,44 @@ function toggleSubmitState (inputList, targetSubmitElement, disabledSubmitClass)
     };
 };
 
-function enableFormValidation (
-    targetFormElement,
-    targetInputClass = "popup__input",
-    targetSubmitClass = "popup__submit",
-    invalidInputClass = "popup__input_invalid",
-    disabledSubmitClass = "popup__submit_disabled"
-) {
+function enableFormValidation (targetFormElement, settingsObject) {
     const inputList = Array.from(
-        targetFormElement.querySelectorAll(`.${targetInputClass}`)
+        targetFormElement.querySelectorAll(
+            `.${settingsObject.targetInputClass}`
+        )
     );
-    const submitElement = targetFormElement.querySelector(`.${targetSubmitClass}`);
-    toggleSubmitState(inputList, submitElement, disabledSubmitClass);
+    const submitElement = targetFormElement.querySelector(
+        `.${settingsObject.targetSubmitClass}`
+    );
+    toggleSubmitState(inputList, submitElement, settingsObject.disabledSubmitClass);
     inputList.forEach(
         (inputElement) => {
             inputElement.addEventListener(
                 "input", function () {
-                    checkInputValidity(targetFormElement, inputElement, invalidInputClass);
-                    toggleSubmitState(inputList, submitElement, disabledSubmitClass);
+                    checkInputValidity(targetFormElement,
+                                       inputElement,
+                                       settingsObject.invalidInputClass);
+                    toggleSubmitState(inputList,
+                                      submitElement,
+                                      settingsObject.disabledSubmitClass);
                 }
             );
         }
     );
 };
 
-export {enableFormValidation};
+
+
+function enableValidation (settingsObject) {
+    const formsList = Array.from(document.forms);
+    formsList.forEach(
+        (formElement) => enableFormValidation(
+            formElement,
+            settingsObject
+        )
+    );
+};
+
+
+
+export {enableValidation, toggleSubmitState};

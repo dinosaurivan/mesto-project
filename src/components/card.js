@@ -1,48 +1,38 @@
-import {openPopup} from "./utils.js";
-
-
-
 // работа с карточками
 
-function createGalleryCard (
-    targetImageObject,
-    targetGalleryCardTemplate,
-    targetPopupDetail,
-    targetPopupDetailImage,
-    targetPopupDetailCaption,
-    galleryCardClass = "gallery__card",
-    cardTitleClass = "gallery__title",
-    cardImageClass = "gallery__image",
-    likeButtonClass = "gallery__like",
-    activeLikeButtonClass = "gallery__like_active",
-    trashButtonClass = "gallery__remove"    
-) {
-    const galleryCard = targetGalleryCardTemplate.querySelector(`.${galleryCardClass}`).cloneNode(true);
-    
-    const galleryTitle = galleryCard.querySelector(`.${cardTitleClass}`);
-    galleryTitle.textContent = targetImageObject.name;
+import {openStaticPopup} from "./modal.js";
 
-    const galleryImage = galleryCard.querySelector(`.${cardImageClass}`);
-    galleryImage.alt = targetImageObject.name;
-    galleryImage.src = targetImageObject.link;
+
+
+function createGalleryCard (settingsObject) {
+    const galleryCard = settingsObject.targetGalleryCardTemplate.querySelector(
+        `.${settingsObject.galleryCardClass}`
+    ).cloneNode(true);
+    
+    const galleryTitle = galleryCard.querySelector(`.${settingsObject.cardTitleClass}`);
+    galleryTitle.textContent = settingsObject.targetImageObject.name;
+
+    const galleryImage = galleryCard.querySelector(`.${settingsObject.cardImageClass}`);
+    galleryImage.alt = settingsObject.targetImageObject.name;
+    galleryImage.src = settingsObject.targetImageObject.link;
 
     galleryImage.addEventListener(
         "click", () => {
-            targetPopupDetailImage.src = targetImageObject.link;
-            targetPopupDetailImage.alt = targetImageObject.name;
-            targetPopupDetailCaption.textContent = targetImageObject.name;
-            openPopup(targetPopupDetail);
+            settingsObject.targetPopupDetailImage.src = settingsObject.targetImageObject.link;
+            settingsObject.targetPopupDetailImage.alt = settingsObject.targetImageObject.name;
+            settingsObject.targetPopupDetailCaption.textContent = settingsObject.targetImageObject.name;
+            openStaticPopup(settingsObject.targetPopupDetail);
         }
     );
     
-    const likeButton = galleryCard.querySelector(`.${likeButtonClass}`);
+    const likeButton = galleryCard.querySelector(`.${settingsObject.likeButtonClass}`);
     likeButton.addEventListener(
-        "click", () => likeButton.classList.toggle(activeLikeButtonClass)
+        "click", () => likeButton.classList.toggle(settingsObject.activeLikeButtonClass)
     );
 
-    const trashButton = galleryCard.querySelector(`.${trashButtonClass}`);
+    const trashButton = galleryCard.querySelector(`.${settingsObject.trashButtonClass}`);
     trashButton.addEventListener(
-        "click", () => trashButton.closest(`.${galleryCardClass}`).remove()
+        "click", () => trashButton.closest(`.${settingsObject.galleryCardClass}`).remove()
     );    
 
     return galleryCard;

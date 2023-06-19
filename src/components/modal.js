@@ -1,24 +1,80 @@
-import {openPopup, closePopup} from "./utils.js";
+// работа модальных окон
+
+import {toggleSubmitState} from "./validate.js";
+
+
+
+function setInputInitialValues (valuesObjectsList) {
+    valuesObjectsList.forEach(
+        (valuesObjectElement) => {
+            valuesObjectElement.inputElement.value = (
+                valuesObjectElement.initialValueHolder
+                ? valuesObjectElement.initialValueHolder.textContent
+                : valuesObjectElement.fallbackinitialValue
+            );
+        }
+    );
+};
+
+function escapeKeyHandler (event) {
+    if (event.key === "Escape") {
+        const activePopup = document.querySelector(".popup_opened");
+        closePopup(activePopup);
+    };
+};
+
+function openStaticPopup (popup) {
+    document.addEventListener(
+        "keydown", escapeKeyHandler
+    );
+    popup.classList.add("popup_opened");    
+};
+
+function openInteractivePopup (popup, submitButtonClass, disabledSubmitClass, formInitialValuesList = []) {
+    setInputInitialValues(formInitialValuesList);
+    toggleSubmitState(
+        formInitialValuesList.map(
+            (inputInitialValueObject) => inputInitialValueObject.inputElement
+        ),
+        popup.querySelector(`.${submitButtonClass}`),
+        disabledSubmitClass
+    );
+    openStaticPopup(popup);
+};
+
+function closePopup (popup) {
+    popup.classList.remove("popup_opened");
+    document.removeEventListener(
+        "keydown", escapeKeyHandler
+    );
+};
 
 
 
 // открытие попапов по кнопке
 
-function makePopupOpenable (popup, openButton) {
+function makePopupOpenable (
+    popup,
+    openButton,
+    submitButtonClass,
+    disabledSubmitClass,
+    formInitialValuesList = []
+) {
     openButton.addEventListener(
-        "click", () => openPopup(popup)
-    )
-}
+        "click", () => openInteractivePopup(
+            popup,
+            submitButtonClass,
+            disabledSubmitClass,
+            formInitialValuesList
+        )
+    );
+};
 
 
 
 // закрытие попапов по клику вне попапа
 
-function makePopupClosable (
-    popup,
-    closureHandler = () => {},
-    closeButtonClass = "popup__close",
-) {
+function makePopupClosable (popup, closeButtonClass) {
     popup.addEventListener(
         "click", (event) => {
             if (
@@ -26,11 +82,10 @@ function makePopupClosable (
                 || event.target === event.currentTarget
             ) {
                 closePopup(popup);
-                closureHandler();
             };            
         }
-    )
-}
+    );
+};
 
 
 
@@ -38,8 +93,8 @@ function makePopupClosable (
 
 function makePopupActionable (
     popup,
-    formSubmitHandler = () => {},
-    formElementClass = "popup__form"
+    formElementClass,
+    formSubmitHandler = () => {}
 ) {
     const formElement = popup.querySelector(`.${formElementClass}`);
     formElement.addEventListener(
@@ -48,38 +103,14 @@ function makePopupActionable (
             formSubmitHandler();
             closePopup(popup);
         }
-    )
-}
-
-
-
-// реакция попапов на нажатия кнопок
-
-function makePopupResponsive (
-    popup,
-    formSubmitHandler = () => {},
-    formInputClass = "popup__input",
-    formElementClass = "popup__form",
-) {
-    popup.addEventListener(
-        "keydown", (event) => {
-            if (
-                event.key === "Enter"
-                && event.target.classList.contains(formInputClass)
-                && event.currentTarget.querySelector(`.${formElementClass}`).checkValidity()
-            ) {
-                formSubmitHandler();
-                closePopup(popup);
-            };
-        }
     );
 };
 
 
 
 export {
+    openStaticPopup,
     makePopupOpenable,
     makePopupClosable,
-    makePopupActionable,
-    makePopupResponsive
+    makePopupActionable
 };

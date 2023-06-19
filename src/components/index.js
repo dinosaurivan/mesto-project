@@ -1,17 +1,20 @@
 import "../index.css";
 
-import {enableFormValidation} from "./validate.js";
+import {enableValidation} from "./validate.js";
 import {createGalleryCard, initialImages} from "./card.js";
-import {makePopupOpenable, makePopupClosable, 
-        makePopupActionable, makePopupResponsive} from "./modal.js";
+import {makePopupOpenable, makePopupClosable, makePopupActionable} from "./modal.js";
 
 
 
 // валидация форм
 
-const formsList = Array.from(document.forms);
-formsList.forEach(
-    (formElement) => enableFormValidation(formElement)
+enableValidation(
+    {
+        targetInputClass: "popup__input",
+        targetSubmitClass: "popup__submit",
+        invalidInputClass: "popup__input_invalid",
+        disabledSubmitClass: "popup__submit_disabled"
+    }
 );
 
 
@@ -28,28 +31,37 @@ const popupDetailCaption = popupDetail.querySelector(".popup__caption");
 initialImages.forEach(
     (imageObject) => galleryCards.append(
         createGalleryCard(
-            imageObject,
-            galleryCardTemplate,
-            popupDetail,
-            popupDetailImage,
-            popupDetailCaption,
+            {
+                targetImageObject: imageObject,
+                targetGalleryCardTemplate: galleryCardTemplate,
+                targetPopupDetail: popupDetail,
+                targetPopupDetailImage: popupDetailImage,
+                targetPopupDetailCaption: popupDetailCaption,
+                galleryCardClass: "gallery__card",
+                cardTitleClass: "gallery__title",
+                cardImageClass: "gallery__image",
+                likeButtonClass: "gallery__like",
+                activeLikeButtonClass: "gallery__like_active",
+                trashButtonClass: "gallery__remove"
+            }
         )
     )
 );
 
 
 
-// установка начальных значений форм
+// данные для форм внутри попапов
+
+const currentProfileName = document.querySelector(".profile__name");
+const currentProfileBio = document.querySelector(".profile__bio");
 
 const formEdit = document.forms.profile__edit;
 const profileNameInput = formEdit.elements.profile__name;
 const profileBioInput = formEdit.elements.profile__bio;
 
-const currentProfileName = document.querySelector(".profile__name");
-const currentProfileBio = document.querySelector(".profile__bio");
-
-profileNameInput.value = currentProfileName.textContent;
-profileBioInput.value = currentProfileBio.textContent;
+const formAdd = document.forms.profile__add;
+const galleryTitleInput = formAdd.elements.gallery__title;
+const galleryImageInput = formAdd.elements.gallery__image;
 
 
 
@@ -57,29 +69,51 @@ profileBioInput.value = currentProfileBio.textContent;
 
 const popupEdit = document.querySelector("#popup_type_edit");
 const openPopupEditButton = document.querySelector(".profile__edit");
-makePopupOpenable(popupEdit, openPopupEditButton);
+makePopupOpenable(
+    popupEdit,
+    openPopupEditButton,
+    "popup__submit", 
+    "popup__submit_disabled",
+    [
+        {
+            inputElement: profileNameInput,
+            initialValueHolder: currentProfileName,
+            fallbackinitialValue: "",
+        },
+        {
+            inputElement: profileBioInput,
+            initialValueHolder: currentProfileBio,   
+            fallbackinitialValue: "",
+        }
+    ]
+);
 
 const popupAdd = document.querySelector("#popup_type_add");
 const openPopupAddButton = document.querySelector(".profile__add");
-makePopupOpenable(popupAdd, openPopupAddButton);
+makePopupOpenable(
+    popupAdd,
+    openPopupAddButton,
+    "popup__submit",
+    "popup__submit_disabled",
+    [
+        {
+            inputElement: galleryTitleInput,
+            fallbackinitialValue: "",
+        },
+        {
+            inputElement: galleryImageInput,
+            fallbackinitialValue: "",
+        }
+    ]
+);
 
 
 
 // закрытие попапов по клику вне попапа
 
-function popupEditClosureHandler () {
-    profileNameInput.value = currentProfileName.textContent;
-    profileBioInput.value = currentProfileBio.textContent;           
-};
-
-const formAdd = document.forms.profile__add;
-function popupAddClosureHandler () {
-    formAdd.reset(); 
-};
-
-makePopupClosable(popupDetail);
-makePopupClosable(popupEdit, popupEditClosureHandler);
-makePopupClosable(popupAdd, popupAddClosureHandler);
+makePopupClosable(popupDetail, "popup__close");
+makePopupClosable(popupEdit, "popup__close");
+makePopupClosable(popupAdd, "popup__close");
 
 
 
@@ -90,30 +124,27 @@ function formEditSubmitHandler () {
     currentProfileBio.textContent = profileBioInput.value;
 }
 
-const galleryTitleInput = formAdd.elements.gallery__title;
-const galleryImageInput = formAdd.elements.gallery__image;
 function formAddSubmitHandler () {
     galleryCards.prepend(
         createGalleryCard(
             {
-                name: galleryTitleInput.value,
-                link: galleryImageInput.value
-            },
-            galleryCardTemplate,
-            popupDetail,
-            popupDetailImage,
-            popupDetailCaption,
+                targetImageObject: {name: galleryTitleInput.value,
+                                    link: galleryImageInput.value},
+                targetGalleryCardTemplate: galleryCardTemplate,
+                targetPopupDetail: popupDetail,
+                targetPopupDetailImage: popupDetailImage,
+                targetPopupDetailCaption: popupDetailCaption,
+                galleryCardClass: "gallery__card",
+                cardTitleClass: "gallery__title",
+                cardImageClass: "gallery__image",
+                likeButtonClass: "gallery__like",
+                activeLikeButtonClass: "gallery__like_active",
+                trashButtonClass: "gallery__remove"
+            }
         )
     );
+    formAdd.reset(); 
 };
 
-makePopupActionable(popupEdit, formEditSubmitHandler);
-makePopupActionable(popupAdd, formAddSubmitHandler);
-
-
-
-// реакция попапов на нажатия кнопок
-
-makePopupResponsive(popupDetail);
-makePopupResponsive(popupEdit, formEditSubmitHandler);
-makePopupResponsive(popupAdd, formAddSubmitHandler);
+makePopupActionable(popupEdit, "popup__form", formEditSubmitHandler);
+makePopupActionable(popupAdd, "popup__form", formAddSubmitHandler);
