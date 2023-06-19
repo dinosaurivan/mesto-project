@@ -57,6 +57,7 @@ function makePopupActionable (
 
 function makePopupResponsive (
     popup,
+    formSubmitHandler = () => {},
     formInputClass = "popup__input",
     formElementClass = "popup__form",
 ) {
@@ -65,10 +66,9 @@ function makePopupResponsive (
             if (
                 event.key === "Enter"
                 && event.target.classList.contains(formInputClass)
+                && event.currentTarget.querySelector(`.${formElementClass}`).checkValidity()
             ) {
-                const formElement = event.currentTarget.querySelector(`.${formElementClass}`);
-                if (formElement.checkValidity()) {formElement.submit()};
-            } else if (event.key === "Esc") {
+                formSubmitHandler();
                 closePopup(popup);
             };
         }

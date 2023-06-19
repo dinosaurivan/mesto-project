@@ -1,0 +1,17 @@
+.page {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  color: white;
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  background-color: #000000;
+
+  position: relative;
+  z-index: 0;
+}

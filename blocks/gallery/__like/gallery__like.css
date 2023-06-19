@@ -1,0 +1,21 @@
+.gallery__like {
+  margin: 0;
+  padding: 0 21px 0 0;
+  box-sizing: content-box;
+  width: 22px;
+  height: 19px;
+
+  background-image: url(../../../src/images/like.svg);
+  background-size: contain;
+  background-position: left;
+  background-repeat: no-repeat;
+
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  transition-delay: 0s;  
+}
+.gallery__like:hover {
+  opacity: 0.5;
+}

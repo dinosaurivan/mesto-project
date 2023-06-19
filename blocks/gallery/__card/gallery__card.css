@@ -1,0 +1,12 @@
+.gallery__card {
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+
+  position: relative;  
+}

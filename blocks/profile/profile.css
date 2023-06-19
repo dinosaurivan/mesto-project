@@ -1,0 +1,24 @@
+.profile {
+  margin: 0;
+  padding: 40px 0 50px 0;
+
+  box-sizing: border-box;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;  
+  align-items: center;
+  gap: 50px 30px;
+}
+@media screen and (max-width: 750px) {
+    .profile {
+        flex-flow: column nowrap;
+      }
+}
+@media screen and (max-width: 400px) {
+    .profile {
+        padding-top: 42px;
+        padding-bottom: 36px;
+        row-gap: 32px;
+      }
+}

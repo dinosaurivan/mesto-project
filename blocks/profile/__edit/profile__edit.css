@@ -1,0 +1,32 @@
+.profile__edit {
+  grid-area: edit;
+
+  width: 24px;
+  height: 24px;
+  border: 1px solid white;  
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url(../../../src/images/edit.svg);
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  transition-delay: 0s;  
+}
+.profile__edit:hover {
+  opacity: 0.6;
+}
+@media screen and (max-width: 450px) {
+    .profile__edit {
+        width: 18px;
+        height: 18px;    
+        background-size: 7.5px 7.5px;
+      }
+}

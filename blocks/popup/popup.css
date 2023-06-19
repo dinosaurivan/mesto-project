@@ -1,0 +1,44 @@
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.popup {
+  position: fixed;
+  z-index: 1;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  padding: 90px 40px 68px 40px;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;  
+
+  animation-name: fadeOut;
+  animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;  
+  animation-timing-function: linear;  
+}
+@media screen and (max-width: 450px) {
+    .popup {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+}

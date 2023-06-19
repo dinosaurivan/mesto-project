@@ -1,0 +1,10 @@
+.popup__fullsize {
+  display: block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;    
+  height: 100%;
+  max-width: 100%;
+
+  position: relative;
+}

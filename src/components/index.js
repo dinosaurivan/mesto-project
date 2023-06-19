@@ -1,8 +1,9 @@
-import "../styles/styles.css";
-import {enableFormValidation} from "./components/validate.js";
-import {createGalleryCard, initialImages} from "./components/card.js";
+import "../index.css";
+
+import {enableFormValidation} from "./validate.js";
+import {createGalleryCard, initialImages} from "./card.js";
 import {makePopupOpenable, makePopupClosable, 
-        makePopupActionable, makePopupResponsive} from "./components/modal.js";
+        makePopupActionable, makePopupResponsive} from "./modal.js";
 
 
 
@@ -114,5 +115,5 @@ makePopupActionable(popupAdd, formAddSubmitHandler);
 // реакция попапов на нажатия кнопок
 
 makePopupResponsive(popupDetail);
-makePopupResponsive(popupEdit);
-makePopupResponsive(popupAdd);
+makePopupResponsive(popupEdit, formEditSubmitHandler);
+makePopupResponsive(popupAdd, formAddSubmitHandler);

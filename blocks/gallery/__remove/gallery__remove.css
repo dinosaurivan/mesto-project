@@ -1,0 +1,23 @@
+.gallery__remove {
+  box-sizing: content-box;
+  width: 18px;
+  height: 19px;
+
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  background-image: url(../../../src/images/trash.svg);
+  background-size: contain;
+  background-position: left;
+  background-repeat: no-repeat;
+
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  transition-delay: 0s;    
+}
+.gallery__remove:hover {
+  opacity: 0.6;
+}

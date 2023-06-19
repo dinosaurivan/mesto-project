@@ -1,0 +1,26 @@
+.profile__textarea {
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas: 
+    "name edit"
+    "bio empty";
+
+  align-items: baseline;
+  gap: 16px 18px;
+}
+@media screen and (max-width: 600px) {
+    .profile__textarea {  
+        left: 21px;
+      }
+}
+@media screen and (max-width: 450px) {
+    .profile__textarea {
+        gap: 8px 10px;
+        left: 14px;
+      }
+}

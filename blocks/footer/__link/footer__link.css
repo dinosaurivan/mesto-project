@@ -1,0 +1,10 @@
+.footer__link {
+  color: #545454;  
+  transition-property: color;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  transition-delay: 0s;
+}
+.footer__link:hover {
+  color: white;
+}

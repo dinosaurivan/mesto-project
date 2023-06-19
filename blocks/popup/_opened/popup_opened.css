@@ -1,0 +1,22 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.popup_opened {
+  opacity: 1;
+  visibility: visible;
+
+  animation-name: fadeIn;
+  animation-direction: normal;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;  
+  animation-timing-function: linear;
+}
