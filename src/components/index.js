@@ -1,5 +1,4 @@
-// import "../index.css";
-import "../../styles/styles.css";
+import "../index.css";
 
 import {enableValidation} from "./validate.js";
 import {createGalleryCard} from "./card.js";

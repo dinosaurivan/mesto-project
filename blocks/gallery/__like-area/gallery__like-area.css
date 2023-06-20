@@ -1,0 +1,11 @@
+.gallery__like-area {
+  margin: 0;
+  padding: 0 21px 0 0;
+  box-sizing: content-box;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 3px;
+}

@@ -1,0 +1,17 @@
+.profile__change-avatar {
+  display: block;
+  width: 120px;
+  height: 120px;    
+  border-radius: 50%;  
+
+  position: absolute;
+  z-index: 1;
+}
+.profile__change-avatar:hover {
+  background-image: url(../../../src/images/edit.svg);
+  background-size: 26px 26px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-color: rgba(0, 0, 0, 0.8);
+}
