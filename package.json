@@ -8,6 +8,7 @@
     "css-loader": "^6.8.1",
     "css-to-bem-file-structure": "^0.0.5",
     "cssnano": "^6.0.1",
+    "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",
@@ -20,8 +21,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack serve",
     "build": "webpack --mode production",
-    "dev": "webpack serve"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
