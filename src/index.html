@@ -22,14 +22,15 @@
 
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="аватар пользователя">
+          <img class="profile__avatar" src="" alt="аватар пользователя">
+          <button class="profile__change-avatar button" id="profile__change-avatar" type="button"></button>
           <div class="profile__textarea">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <p class="profile__bio">Исследователь океана</p>
-            <button class="profile__edit button" type="button"></button>
+            <h1 class="profile__name"></h1>
+            <p class="profile__bio"></p>
+            <button class="profile__edit button" id="profile__edit" type="button"></button>
           </div>
         </div>
-        <button class="profile__add button" type="button"></button>
+        <button class="profile__add button" id="profile__add" type="button"></button>
       </section>
 
       <section class="gallery">
@@ -41,7 +42,10 @@
               <button class="gallery__remove button" type="button"></button>
               <div class="gallery__cover">
                 <h2 class="gallery__title"></h2>
-                <button class="gallery__like button" type="button"></button>
+                <div class="gallery__like-area">
+                  <button class="gallery__like button" type="button"></button>
+                  <span class="gallery__like-count">6</span>
+                </div>
               </div>
             </li>
           </template>
@@ -98,6 +102,32 @@
           >
           <span class="popup__input-error" id="gallery__image-error"></span>
           <button type="submit" class="popup__submit popup__submit_disabled button" disabled>Создать</button>
+        </form>
+        <button class="popup__close button" type="button"></button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup_type_avatar">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="popup__form" name="profile__avatar" novalidate>
+          <input
+            class="popup__input" name="profile__avatar" placeholder="Ссылка на картинку"
+            type="url" required
+          >
+          <span class="popup__input-error" id="profile__avatar-error"></span>
+          <button type="submit" class="popup__submit popup__submit_disabled button" disabled>Сохранить</button>
+        </form>
+        <button class="popup__close button" type="button"></button>
+      </div>
+    </div>          
+    
+    <div class="popup" id="popup_type_remove">
+      <div class="popup__container">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <form class="popup__form" name="gallery__remove" novalidate>
+          <input type="hidden" name="gallery__remove">
+          <button type="submit" class="popup__submit popup__submit_disabled button" disabled>Да</button>
         </form>
         <button class="popup__close button" type="button"></button>
       </div>

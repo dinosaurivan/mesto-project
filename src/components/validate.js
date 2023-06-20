@@ -1,49 +1,47 @@
 // валидация форм
 
-function showInputError (targetFormElement, targetInputElement, invalidInputClass) {
+function showInputError (targetFormElement, targetInputElement, targetInputClass) {
     const targetErrorElement = targetFormElement.querySelector(
         `#${targetInputElement.name}-error`
     );
-    targetInputElement.classList.add(invalidInputClass);
+    targetInputElement.classList.add(`${targetInputClass}_invalid`);
     targetErrorElement.textContent = targetInputElement.validationMessage;
 };
 
-function hideInputError (targetFormElement, targetInputElement, invalidInputClass) {
+function hideInputError (targetFormElement, targetInputElement, targetInputClass) {
     const targetErrorElement = targetFormElement.querySelector(
         `#${targetInputElement.name}-error`
     );
-    targetInputElement.classList.remove(invalidInputClass);
+    targetInputElement.classList.remove(`${targetInputClass}_invalid`);
     targetErrorElement.textContent = "";
 };
 
-function checkInputValidity (targetFormElement, targetInputElement, invalidInputClass) {
+function checkInputValidity (targetFormElement, targetInputElement, targetInputClass) {
     if (targetInputElement.validity.patternMismatch) {
         targetInputElement.setCustomValidity(targetInputElement.dataset.errorMessage);
     } else {
         targetInputElement.setCustomValidity("");
     };
     if (! targetInputElement.validity.valid) {
-        showInputError(targetFormElement, targetInputElement, invalidInputClass);
+        showInputError(targetFormElement, targetInputElement, targetInputClass);
     }
     else {
-        hideInputError(targetFormElement, targetInputElement, invalidInputClass);
+        hideInputError(targetFormElement, targetInputElement, targetInputClass);
     };
 };
 
 function hasInvalidInput (inputList) {
     return inputList.some(
-        (inputElement) => {
-            return ! inputElement.validity.valid;
-        }
+        inputElement => ! inputElement.validity.valid
     );
 };
 
-function toggleSubmitState (inputList, targetSubmitElement, disabledSubmitClass) {
+function toggleSubmitState (inputList, targetSubmitElement, targetSubmitClass) {
     if (hasInvalidInput(inputList)) {
-        targetSubmitElement.classList.add(disabledSubmitClass);
+        targetSubmitElement.classList.add(`${targetSubmitClass}_disabled`);
         targetSubmitElement.setAttribute("disabled", true);
     } else {
-        targetSubmitElement.classList.remove(disabledSubmitClass);
+        targetSubmitElement.classList.remove(`${targetSubmitClass}_disabled`);
         targetSubmitElement.removeAttribute("disabled");
     };
 };
@@ -57,17 +55,17 @@ function enableFormValidation (targetFormElement, settingsObject) {
     const submitElement = targetFormElement.querySelector(
         `.${settingsObject.targetSubmitClass}`
     );
-    toggleSubmitState(inputList, submitElement, settingsObject.disabledSubmitClass);
+    toggleSubmitState(inputList, submitElement, settingsObject.targetSubmitClass);
     inputList.forEach(
-        (inputElement) => {
+        inputElement => {
             inputElement.addEventListener(
                 "input", function () {
                     checkInputValidity(targetFormElement,
                                        inputElement,
-                                       settingsObject.invalidInputClass);
+                                       settingsObject.targetInputClass);
                     toggleSubmitState(inputList,
                                       submitElement,
-                                      settingsObject.disabledSubmitClass);
+                                      settingsObject.targetSubmitClass);
                 }
             );
         }

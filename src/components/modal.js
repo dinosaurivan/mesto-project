@@ -6,11 +6,11 @@ import {toggleSubmitState} from "./validate.js";
 
 function setInputInitialValues (valuesObjectsList) {
     valuesObjectsList.forEach(
-        (valuesObjectElement) => {
+        valuesObjectElement => {
             valuesObjectElement.inputElement.value = (
-                valuesObjectElement.initialValueHolder
-                ? valuesObjectElement.initialValueHolder.textContent
-                : valuesObjectElement.fallbackinitialValue
+                valuesObjectElement.initialValueContainer
+                ? valuesObjectElement.initialValueContainer.textContent
+                : valuesObjectElement.fallbackInitialValue
             );
         }
     );
@@ -30,14 +30,14 @@ function openStaticPopup (popup) {
     popup.classList.add("popup_opened");    
 };
 
-function openInteractivePopup (popup, submitButtonClass, disabledSubmitClass, formInitialValuesList = []) {
+function openInteractivePopup (popup, submitButtonClass, formInitialValuesList = []) {
     setInputInitialValues(formInitialValuesList);
     toggleSubmitState(
         formInitialValuesList.map(
             (inputInitialValueObject) => inputInitialValueObject.inputElement
         ),
         popup.querySelector(`.${submitButtonClass}`),
-        disabledSubmitClass
+        submitButtonClass
     );
     openStaticPopup(popup);
 };
@@ -57,14 +57,12 @@ function makePopupOpenable (
     popup,
     openButton,
     submitButtonClass,
-    disabledSubmitClass,
     formInitialValuesList = []
 ) {
     openButton.addEventListener(
         "click", () => openInteractivePopup(
             popup,
             submitButtonClass,
-            disabledSubmitClass,
             formInitialValuesList
         )
     );
@@ -76,7 +74,7 @@ function makePopupOpenable (
 
 function makePopupClosable (popup, closeButtonClass) {
     popup.addEventListener(
-        "click", (event) => {
+        "click", event => {
             if (
                 event.target.classList.contains(closeButtonClass)
                 || event.target === event.currentTarget
@@ -98,7 +96,7 @@ function makePopupActionable (
 ) {
     const formElement = popup.querySelector(`.${formElementClass}`);
     formElement.addEventListener(
-        "submit", (event) => {
+        "submit", event => {
             event.preventDefault();
             formSubmitHandler();
             closePopup(popup);
@@ -110,6 +108,7 @@ function makePopupActionable (
 
 export {
     openStaticPopup,
+    openInteractivePopup,
     makePopupOpenable,
     makePopupClosable,
     makePopupActionable

@@ -1,8 +1,20 @@
-import "../index.css";
+// import "../index.css";
+import "../../styles/styles.css";
 
 import {enableValidation} from "./validate.js";
-import {createGalleryCard, initialImages} from "./card.js";
-import {makePopupOpenable, makePopupClosable, makePopupActionable} from "./modal.js";
+import {createGalleryCard} from "./card.js";
+
+import {
+    makePopupOpenable,
+    makePopupClosable,
+    makePopupActionable
+} from "./modal.js";
+
+import {
+    getMe, getInitialCards,
+    changeProfileInfo, changeProfileAvatar,
+    addCard, removeCard
+} from "./api.js";
 
 
 
@@ -12,8 +24,26 @@ enableValidation(
     {
         targetInputClass: "popup__input",
         targetSubmitClass: "popup__submit",
-        invalidInputClass: "popup__input_invalid",
-        disabledSubmitClass: "popup__submit_disabled"
+    }
+);
+
+
+
+// данные пользователя
+
+const currentProfileAvatar = document.querySelector(".profile__avatar");
+const currentProfileName = document.querySelector(".profile__name");
+const currentProfileBio = document.querySelector(".profile__bio");
+
+getMe().then(
+    profile => {
+        currentProfileAvatar.src = profile.avatar;
+        currentProfileName.textContent = profile.name;
+        currentProfileBio.textContent = profile.about;
+    }
+).catch(
+    error => {
+        console.log(error);
     }
 );
 
@@ -28,82 +58,115 @@ const popupDetail = document.querySelector("#popup_type_detail");
 const popupDetailImage = popupDetail.querySelector(".popup__image");
 const popupDetailCaption = popupDetail.querySelector(".popup__caption");
 
-initialImages.forEach(
-    (imageObject) => galleryCards.append(
-        createGalleryCard(
-            {
-                targetImageObject: imageObject,
-                targetGalleryCardTemplate: galleryCardTemplate,
-                targetPopupDetail: popupDetail,
-                targetPopupDetailImage: popupDetailImage,
-                targetPopupDetailCaption: popupDetailCaption,
-                galleryCardClass: "gallery__card",
-                cardTitleClass: "gallery__title",
-                cardImageClass: "gallery__image",
-                likeButtonClass: "gallery__like",
-                activeLikeButtonClass: "gallery__like_active",
-                trashButtonClass: "gallery__remove"
-            }
-        )
-    )
+const popupPromptDelete = document.querySelector("#popup_type_remove");
+const formRemoveCard = document.forms.gallery__remove;
+const removeCardInput = formRemoveCard.elements.gallery__remove;
+
+getInitialCards().then(
+    initialCards => {
+        initialCards.forEach(
+            (card) => galleryCards.append(
+                createGalleryCard(
+                    {
+                        targetCardObject: card,
+                        targetGalleryCardTemplate: galleryCardTemplate,
+                        targetPopupDetail: popupDetail,
+                        targetPopupDetailImage: popupDetailImage,
+                        targetPopupDetailCaption: popupDetailCaption,
+                        targetPopupPromptDelete: popupPromptDelete,
+                        targetInputPromptDelete: removeCardInput,
+                        galleryCardClass: "gallery__card",
+                        cardTitleClass: "gallery__title",
+                        cardImageClass: "gallery__image",
+                        likeButtonClass: "gallery__like",
+                        trashButtonClass: "gallery__remove",
+                        submitButtonClass: "popup__submit",
+                    }
+                )
+            )
+        );
+    }
+).catch(
+    error => {
+        console.log(error);
+    }
 );
 
 
 
-// данные для форм внутри попапов
+// элементы форм
 
-const currentProfileName = document.querySelector(".profile__name");
-const currentProfileBio = document.querySelector(".profile__bio");
+const formEditProfile = document.forms.profile__edit;
+const profileNameInput = formEditProfile.elements.profile__name;
+const profileBioInput = formEditProfile.elements.profile__bio;
 
-const formEdit = document.forms.profile__edit;
-const profileNameInput = formEdit.elements.profile__name;
-const profileBioInput = formEdit.elements.profile__bio;
+const formAddCard = document.forms.profile__add;
+const galleryTitleInput = formAddCard.elements.gallery__title;
+const galleryImageInput = formAddCard.elements.gallery__image;
 
-const formAdd = document.forms.profile__add;
-const galleryTitleInput = formAdd.elements.gallery__title;
-const galleryImageInput = formAdd.elements.gallery__image;
+const formEditAvatar = document.forms.profile__avatar;
+const profileAvatarInput = formEditAvatar.elements.profile__avatar;
+
+
+
+// элементы модальных окон
+
+const popupEditProfile = document.querySelector("#popup_type_edit");
+const openPopupEditProfileButton = document.querySelector("#profile__edit");
+
+const popupAddCard = document.querySelector("#popup_type_add");
+const openPopupAddCardButton = document.querySelector("#profile__add");
+
+const popupEditAvatar = document.querySelector("#popup_type_avatar");
+const openPopupEditAvatarButton = document.querySelector("#profile__change-avatar");
 
 
 
 // открытие попапов по кнопке
 
-const popupEdit = document.querySelector("#popup_type_edit");
-const openPopupEditButton = document.querySelector(".profile__edit");
 makePopupOpenable(
-    popupEdit,
-    openPopupEditButton,
+    popupEditProfile,
+    openPopupEditProfileButton,
     "popup__submit", 
-    "popup__submit_disabled",
     [
         {
             inputElement: profileNameInput,
-            initialValueHolder: currentProfileName,
-            fallbackinitialValue: "",
+            initialValueContainer: currentProfileName,
+            fallbackInitialValue: "",
         },
         {
             inputElement: profileBioInput,
-            initialValueHolder: currentProfileBio,   
-            fallbackinitialValue: "",
-        }
+            initialValueContainer: currentProfileBio,   
+            fallbackInitialValue: "",
+        },
     ]
 );
 
-const popupAdd = document.querySelector("#popup_type_add");
-const openPopupAddButton = document.querySelector(".profile__add");
 makePopupOpenable(
-    popupAdd,
-    openPopupAddButton,
+    popupAddCard,
+    openPopupAddCardButton,
     "popup__submit",
-    "popup__submit_disabled",
     [
         {
             inputElement: galleryTitleInput,
-            fallbackinitialValue: "",
+            fallbackInitialValue: "",
         },
         {
             inputElement: galleryImageInput,
-            fallbackinitialValue: "",
-        }
+            fallbackInitialValue: "",
+        },
+    ]
+);
+
+makePopupOpenable(
+    popupEditAvatar,
+    openPopupEditAvatarButton,
+    "popup__submit",
+    [
+        {
+            inputElement: profileAvatarInput,
+            fallbackInitialValue: "",
+        },
     ]
 );
 
@@ -112,39 +175,127 @@ makePopupOpenable(
 // закрытие попапов по клику вне попапа
 
 makePopupClosable(popupDetail, "popup__close");
-makePopupClosable(popupEdit, "popup__close");
-makePopupClosable(popupAdd, "popup__close");
+makePopupClosable(popupAddCard, "popup__close");
+makePopupClosable(popupEditAvatar, "popup__close");
+makePopupClosable(popupEditProfile, "popup__close");
+makePopupClosable(popupPromptDelete, "popup__close");
 
 
 
 // сохранение значений при отправке форм
 
-function formEditSubmitHandler () {
-    currentProfileName.textContent = profileNameInput.value;
-    currentProfileBio.textContent = profileBioInput.value;
+const addCardSubmitButton = formAddCard.querySelector(".popup__submit");
+const removeCardSubmitButton = formRemoveCard.querySelector(".popup__submit");
+const editAvatarSubmitButton = formEditAvatar.querySelector(".popup__submit");
+const editProfileSubmitButton = formEditProfile.querySelector(".popup__submit");
+
+function formEditProfileSubmitHandler () {
+    const initialSubmitButtonText = editProfileSubmitButton.textContent;
+    editProfileSubmitButton.textContent = "Сохраняем...";
+    changeProfileInfo(
+        profileNameInput.value, profileBioInput.value
+    ).then(
+        profile => {
+            currentProfileName.textContent = profile.name;
+            currentProfileBio.textContent = profile.about;
+        }
+    ).catch(
+        error => {
+            console.log(error);
+        }
+    ).finally(
+        () => {
+            editProfileSubmitButton.textContent = initialSubmitButtonText;
+            formEditProfile.reset();
+        }
+    );
 }
 
-function formAddSubmitHandler () {
-    galleryCards.prepend(
-        createGalleryCard(
-            {
-                targetImageObject: {name: galleryTitleInput.value,
-                                    link: galleryImageInput.value},
-                targetGalleryCardTemplate: galleryCardTemplate,
-                targetPopupDetail: popupDetail,
-                targetPopupDetailImage: popupDetailImage,
-                targetPopupDetailCaption: popupDetailCaption,
-                galleryCardClass: "gallery__card",
-                cardTitleClass: "gallery__title",
-                cardImageClass: "gallery__image",
-                likeButtonClass: "gallery__like",
-                activeLikeButtonClass: "gallery__like_active",
-                trashButtonClass: "gallery__remove"
-            }
-        )
+function formEditAvatarSubmitHandler () {
+    const initialSubmitButtonText = editAvatarSubmitButton.textContent;
+    editAvatarSubmitButton.textContent = "Сохраняем...";    
+    changeProfileAvatar(
+        profileAvatarInput.value
+    ).then(
+        profile => {
+            currentProfileAvatar.src = profile.avatar;
+        }
+    ).catch(
+        error => {
+            console.log(error);
+        }
+    ).finally(
+        () => {
+            editAvatarSubmitButton.textContent = initialSubmitButtonText;
+            formEditAvatar.reset();
+        }
     );
-    formAdd.reset(); 
+}
+
+function formAddCardSubmitHandler () {
+    const initialSubmitButtonText = addCardSubmitButton.textContent;
+    addCardSubmitButton.textContent = "Добавляем...";        
+    addCard(
+        galleryTitleInput.value, galleryImageInput.value
+    ).then(
+        card => {
+            galleryCards.prepend(
+                createGalleryCard(
+                    {
+                        targetCardObject: card,
+                        targetGalleryCardTemplate: galleryCardTemplate,
+                        targetPopupDetail: popupDetail,
+                        targetPopupDetailImage: popupDetailImage,
+                        targetPopupDetailCaption: popupDetailCaption,
+                        targetPopupPromptDelete: popupPromptDelete,
+                        targetInputPromptDelete: removeCardInput,
+                        galleryCardClass: "gallery__card",
+                        cardTitleClass: "gallery__title",
+                        cardImageClass: "gallery__image",
+                        likeButtonClass: "gallery__like",
+                        trashButtonClass: "gallery__remove",
+                        submitButtonClass: "popup__submit",                        
+                    }
+                )
+            );
+        }
+    ).catch(
+        error => {
+            console.log(error);
+        }
+    ).finally(
+        () => {
+            addCardSubmitButton.textContent = initialSubmitButtonText;
+            formAddCard.reset();
+        }
+    );
 };
 
-makePopupActionable(popupEdit, "popup__form", formEditSubmitHandler);
-makePopupActionable(popupAdd, "popup__form", formAddSubmitHandler);
+function formRemoveCardSubmitHandler () {
+    const initialSubmitButtonText = removeCardSubmitButton.textContent;
+    removeCardSubmitButton.textContent = "Удаляем...";         
+    removeCard(
+        removeCardInput.value
+    ).then(
+        () => {
+            const card = document.querySelector(
+                `[data-card-id="${removeCardInput.value}"]`
+            );
+            card.remove();
+        }
+    ).catch(
+        error => {
+            console.log(error);
+        }
+    ).finally(
+        () => {
+            removeCardSubmitButton.textContent = initialSubmitButtonText;
+            formRemoveCard.reset();
+        }
+    );
+};
+
+makePopupActionable(popupAddCard, "popup__form", formAddCardSubmitHandler);
+makePopupActionable(popupEditAvatar, "popup__form", formEditAvatarSubmitHandler);
+makePopupActionable(popupEditProfile, "popup__form", formEditProfileSubmitHandler);
+makePopupActionable(popupPromptDelete, "popup__form", formRemoveCardSubmitHandler);
