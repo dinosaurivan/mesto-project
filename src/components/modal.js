@@ -99,7 +99,6 @@ function makePopupActionable (
         "submit", event => {
             event.preventDefault();
             formSubmitHandler();
-            closePopup(popup);
         }
     );
 };
@@ -107,6 +106,7 @@ function makePopupActionable (
 
 
 export {
+    closePopup,
     openStaticPopup,
     openInteractivePopup,
     makePopupOpenable,

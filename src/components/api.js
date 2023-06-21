@@ -39,10 +39,6 @@ function performFetch (config) {
             };
             return Promise.reject(`Error: ${response.status}`);
         }
-    ).catch(
-        error => {
-            console.log(error);
-        }
     );
 };
 

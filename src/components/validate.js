@@ -1,32 +1,32 @@
 // валидация форм
 
-function showInputError (targetFormElement, targetInputElement, targetInputClass) {
-    const targetErrorElement = targetFormElement.querySelector(
-        `#${targetInputElement.name}-error`
+function showInputError (FormElement, InputElement, InputClass) {
+    const ErrorElement = FormElement.querySelector(
+        `#${InputElement.name}-error`
     );
-    targetInputElement.classList.add(`${targetInputClass}_invalid`);
-    targetErrorElement.textContent = targetInputElement.validationMessage;
+    InputElement.classList.add(`${InputClass}_invalid`);
+    ErrorElement.textContent = InputElement.validationMessage;
 };
 
-function hideInputError (targetFormElement, targetInputElement, targetInputClass) {
-    const targetErrorElement = targetFormElement.querySelector(
-        `#${targetInputElement.name}-error`
+function hideInputError (FormElement, InputElement, InputClass) {
+    const ErrorElement = FormElement.querySelector(
+        `#${InputElement.name}-error`
     );
-    targetInputElement.classList.remove(`${targetInputClass}_invalid`);
-    targetErrorElement.textContent = "";
+    InputElement.classList.remove(`${InputClass}_invalid`);
+    ErrorElement.textContent = "";
 };
 
-function checkInputValidity (targetFormElement, targetInputElement, targetInputClass) {
-    if (targetInputElement.validity.patternMismatch) {
-        targetInputElement.setCustomValidity(targetInputElement.dataset.errorMessage);
+function checkInputValidity (FormElement, InputElement, InputClass) {
+    if (InputElement.validity.patternMismatch) {
+        InputElement.setCustomValidity(InputElement.dataset.errorMessage);
     } else {
-        targetInputElement.setCustomValidity("");
+        InputElement.setCustomValidity("");
     };
-    if (! targetInputElement.validity.valid) {
-        showInputError(targetFormElement, targetInputElement, targetInputClass);
+    if (! InputElement.validity.valid) {
+        showInputError(FormElement, InputElement, InputClass);
     }
     else {
-        hideInputError(targetFormElement, targetInputElement, targetInputClass);
+        hideInputError(FormElement, InputElement, InputClass);
     };
 };
 
@@ -36,36 +36,36 @@ function hasInvalidInput (inputList) {
     );
 };
 
-function toggleSubmitState (inputList, targetSubmitElement, targetSubmitClass) {
+function toggleSubmitState (inputList, SubmitElement, SubmitClass) {
     if (hasInvalidInput(inputList)) {
-        targetSubmitElement.classList.add(`${targetSubmitClass}_disabled`);
-        targetSubmitElement.setAttribute("disabled", true);
+        SubmitElement.classList.add(`${SubmitClass}_disabled`);
+        SubmitElement.setAttribute("disabled", true);
     } else {
-        targetSubmitElement.classList.remove(`${targetSubmitClass}_disabled`);
-        targetSubmitElement.removeAttribute("disabled");
+        SubmitElement.classList.remove(`${SubmitClass}_disabled`);
+        SubmitElement.removeAttribute("disabled");
     };
 };
 
-function enableFormValidation (targetFormElement, settingsObject) {
+function enableFormValidation (FormElement, settingsObject) {
     const inputList = Array.from(
-        targetFormElement.querySelectorAll(
-            `.${settingsObject.targetInputClass}`
+        FormElement.querySelectorAll(
+            `.${settingsObject.InputClass}`
         )
     );
-    const submitElement = targetFormElement.querySelector(
-        `.${settingsObject.targetSubmitClass}`
+    const submitElement = FormElement.querySelector(
+        `.${settingsObject.SubmitClass}`
     );
-    toggleSubmitState(inputList, submitElement, settingsObject.targetSubmitClass);
+    toggleSubmitState(inputList, submitElement, settingsObject.SubmitClass);
     inputList.forEach(
         inputElement => {
             inputElement.addEventListener(
                 "input", function () {
-                    checkInputValidity(targetFormElement,
+                    checkInputValidity(FormElement,
                                        inputElement,
-                                       settingsObject.targetInputClass);
+                                       settingsObject.InputClass);
                     toggleSubmitState(inputList,
                                       submitElement,
-                                      settingsObject.targetSubmitClass);
+                                      settingsObject.SubmitClass);
                 }
             );
         }

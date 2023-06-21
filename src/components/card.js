@@ -1,35 +1,40 @@
 // работа с карточками
 
-import {currentUserId} from "./utils.js";
-import {openStaticPopup, makePopupOpenable} from "./modal.js";
-import {likeCard, unlikeCard} from "./api.js";
+import {closePopup, openStaticPopup, makePopupOpenable} from "./modal.js";
+import {likeCard, unlikeCard, removeCard} from "./api.js";
 
 
 
-function setCardLikeAreaState (targetLikeButton, likeButtonClass, targetLikesCountElement, targetCardObject) {
-    targetLikesCountElement.textContent = targetCardObject.likes.length;
+function setCardLikeAreaState (
+    LikeButton, likeButtonClass, LikesCountElement,
+    CardObject, currentUserId
+) {
+    LikesCountElement.textContent = CardObject.likes.length;
     if (
-        targetCardObject.likes.some(
+        CardObject.likes.some(
             like => like._id === currentUserId
         )
     ) {
-        targetLikeButton.classList.add(`${likeButtonClass}_active`);
+        LikeButton.classList.add(`${likeButtonClass}_active`);
     } else {
-        targetLikeButton.classList.remove(`${likeButtonClass}_active`);
+        LikeButton.classList.remove(`${likeButtonClass}_active`);
     };
 };
 
 
 
-function likeButtonClickHandler (likeButtonClass, likeCountContainer, galleryCardClass) {
+function likeButtonClickHandler (
+    likeButtonClass, likeCountContainer, CardId, currentUserId
+) {
     return function (event) {
         if (event.target.classList.contains(`${likeButtonClass}_active`)) {
             unlikeCard(
-                event.target.closest(`.${galleryCardClass}`).dataset.cardId
+                CardId
             ).then(
                 card => {
                     setCardLikeAreaState(
-                        event.target, likeButtonClass, likeCountContainer, card
+                        event.target, likeButtonClass, likeCountContainer,
+                        card, currentUserId
                     );
                 }
             ).catch(
@@ -39,11 +44,12 @@ function likeButtonClickHandler (likeButtonClass, likeCountContainer, galleryCar
             );
         } else {
             likeCard(
-                event.target.closest(`.${galleryCardClass}`).dataset.cardId
+                CardId
             ).then(
                 card => {
                     setCardLikeAreaState(
-                        event.target, likeButtonClass, likeCountContainer, card
+                        event.target, likeButtonClass, likeCountContainer,
+                        card, currentUserId
                     );
                 }
             ).catch(
@@ -57,13 +63,58 @@ function likeButtonClickHandler (likeButtonClass, likeCountContainer, galleryCar
 
 
 
-function restrictCardRemoval (
-    trashButton, targetCardObject, galleryCardClass,
-    popupPromptDelete, inputPromptDelete, submitButtonClass
+function formPromptDeleteSubmitHandler (
+    cardElement, popupPromptDelete, formPromptDelete, inputPromptDelete, promptDeleteSubmitButton
 ) {
-    if (currentUserId !== targetCardObject.owner._id) {
+    promptDeleteSubmitButton.textContent = "Удаляем...";         
+    removeCard(
+        inputPromptDelete.value
+    ).then(
+        () => {
+            cardElement.remove();
+        }
+    ).then(
+        () => {
+            closePopup(popupPromptDelete);
+            formPromptDelete.reset();
+        }
+    ).catch(
+        error => {
+            console.log(error);
+        }
+    ).finally(
+        () => {
+            promptDeleteSubmitButton.textContent = "Да";
+        }
+    );
+};
+
+
+
+function rotatingPromptDeleteEventListener (
+    card, popupPromptDelete, formPromptDelete, inputPromptDelete, submitButtonElement
+) {
+    return function (event) {
+        event.preventDefault();
+        formPromptDeleteSubmitHandler(
+            card, popupPromptDelete, formPromptDelete, inputPromptDelete, submitButtonElement
+        );
+    }
+};
+
+
+
+function restrictCardRemoval (
+    trashButton, galleryCardClass, popupPromptDelete, 
+    formElementClass, inputPromptDelete, submitButtonClass, closeButtonClass,
+    CardObject, currentUserId
+) {
+    if (currentUserId !== CardObject.owner._id) {
         trashButton.remove();
     } else {
+        const card = trashButton.closest(`.${galleryCardClass}`);
+        const formPromptDelete = popupPromptDelete.querySelector(`.${formElementClass}`);
+        const submitButtonElement = formPromptDelete.querySelector(`.${submitButtonClass}`);
         makePopupOpenable(
             popupPromptDelete,
             trashButton,
@@ -71,53 +122,81 @@ function restrictCardRemoval (
             [
                 {
                     inputElement: inputPromptDelete,
-                    fallbackInitialValue: trashButton.closest(`.${galleryCardClass}`).dataset.cardId,
+                    fallbackInitialValue: CardObject._id,
                 }              
             ]
-        )
+        );
+        trashButton.addEventListener(
+            "click", () => {
+                formPromptDelete.addEventListener(
+                    "submit",
+                    rotatingPromptDeleteEventListener(
+                        card, popupPromptDelete, formPromptDelete, inputPromptDelete, submitButtonElement
+                    )
+                );
+            }
+        );
+        popupPromptDelete.addEventListener(
+            "click", event => {
+                if (
+                    event.target.classList.contains(closeButtonClass)
+                    || event.target === event.currentTarget
+                ) {
+                    closePopup(popupPromptDelete);
+                    formPromptDelete.removeEventListener(
+                        "submit",
+                        rotatingPromptDeleteEventListener(
+                            card, popupPromptDelete, formPromptDelete, inputPromptDelete, submitButtonElement
+                        )
+                    );                    
+                };            
+            }
+        );        
     };
 };
 
 
 
 function createGalleryCard (settingsObject) {
-    const galleryCard = settingsObject.targetGalleryCardTemplate.querySelector(
+    const galleryCard = settingsObject.GalleryCardTemplate.querySelector(
         `.${settingsObject.galleryCardClass}`
     ).cloneNode(true);
-
-    galleryCard.setAttribute("data-card-id", settingsObject.targetCardObject._id);
     
     const galleryTitle = galleryCard.querySelector(`.${settingsObject.cardTitleClass}`);
-    galleryTitle.textContent = settingsObject.targetCardObject.name;
+    galleryTitle.textContent = settingsObject.CardObject.name;
 
     const galleryImage = galleryCard.querySelector(`.${settingsObject.cardImageClass}`);
-    galleryImage.alt = settingsObject.targetCardObject.name;
-    galleryImage.src = settingsObject.targetCardObject.link;
+    galleryImage.alt = settingsObject.CardObject.name;
+    galleryImage.src = settingsObject.CardObject.link;
 
     galleryImage.addEventListener(
         "click", () => {
-            settingsObject.targetPopupDetailImage.src = settingsObject.targetCardObject.link;
-            settingsObject.targetPopupDetailImage.alt = settingsObject.targetCardObject.name;
-            settingsObject.targetPopupDetailCaption.textContent = settingsObject.targetCardObject.name;
-            openStaticPopup(settingsObject.targetPopupDetail);
+            settingsObject.PopupDetailImage.src = settingsObject.CardObject.link;
+            settingsObject.PopupDetailImage.alt = settingsObject.CardObject.name;
+            settingsObject.PopupDetailCaption.textContent = settingsObject.CardObject.name;
+            openStaticPopup(settingsObject.PopupDetail);
         }
     );
     
     const likeButton = galleryCard.querySelector(`.${settingsObject.likeButtonClass}`);
     const likeCountContainer = galleryCard.querySelector(`.${settingsObject.likeButtonClass}-count`);
     setCardLikeAreaState(
-        likeButton, settingsObject.likeButtonClass, likeCountContainer, settingsObject.targetCardObject
+        likeButton, settingsObject.likeButtonClass, likeCountContainer,
+        settingsObject.CardObject, settingsObject.currentUserId        
     );
     likeButton.addEventListener(
         "click", likeButtonClickHandler(
-            settingsObject.likeButtonClass, likeCountContainer, settingsObject.galleryCardClass
+            settingsObject.likeButtonClass, likeCountContainer,
+            settingsObject.CardObject._id, settingsObject.currentUserId
         )
     );
 
     const trashButton = galleryCard.querySelector(`.${settingsObject.trashButtonClass}`);
-    restrictCardRemoval (  
-        trashButton, settingsObject.targetCardObject, settingsObject.galleryCardClass,
-        settingsObject.targetPopupPromptDelete, settingsObject.targetInputPromptDelete, settingsObject.submitButtonClass
+    restrictCardRemoval(
+        trashButton, settingsObject.galleryCardClass, settingsObject.PopupPromptDelete, 
+        settingsObject.formElementClass, settingsObject.InputPromptDelete,
+        settingsObject.submitButtonClass, settingsObject.closeButtonClass,
+        settingsObject.CardObject, settingsObject.currentUserId
     );
 
     return galleryCard;
